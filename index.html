@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exptradingview</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1220;
+      color: #f8fafc;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid #263247;
+    }
+    .brand { font-size: 21px; font-weight: bold; }
+    .brand span { color: #38bdf8; }
+    nav a {
+      color: #cbd5e1;
+      text-decoration: none;
+      margin-left: 12px;
+      font-size: 14px;
+    }
+    main {
+      width: min(100% - 32px, 900px);
+      margin: 45px auto;
+    }
+    .hero { text-align: center; margin-bottom: 32px; }
+    .hero h1 { font-size: clamp(30px, 7vw, 48px); }
+    .hero p { color: #94a3b8; line-height: 1.6; }
+    .panel {
+      max-width: 440px;
+      margin: auto;
+      padding: 24px;
+      background: #111c2e;
+      border: 1px solid #29384f;
+      border-radius: 16px;
+    }
+    .tabs { display: flex; gap: 10px; margin-bottom: 22px; }
+    button {
+      cursor: pointer;
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-weight: bold;
+    }
+    .tab { flex: 1; background: #243247; color: white; }
+    .tab.active, .primary { background: #0284c7; color: white; }
+    label { display: block; margin: 16px 0 8px; }
+    input {
+      width: 100%;
+      padding: 13px;
+      border-radius: 8px;
+      border: 1px solid #394a62;
+      background: #0b1220;
+      color: white;
+      font-size: 16px;
+    }
+    .primary { width: 100%; margin-top: 20px; }
+    .message { color: #7dd3fc; line-height: 1.5; }
+    footer {
+      text-align: center;
+      padding: 30px 15px;
+      color: #94a3b8;
+      font-size: 13px;
+    }
+    @media (max-width: 420px) {
+      header { padding: 16px 12px; }
+      nav a { margin-left: 7px; font-size: 12px; }
+      .panel { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">EXP<span>TRADINGVIEW</span></div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#account">Account</a>
+    </nav>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <h1>Your trading journey starts here.</h1>
+      <p>Explore market information and manage your account
+      through your personal dashboard.</p>
+    </section>
+
+    <section class="panel" id="account">
+      <div class="tabs">
+        <button class="tab active" id="signupTab"
+          onclick="showForm('signup')">Sign up</button>
+        <button class="tab" id="loginTab"
+          onclick="showForm('login')">Log in</button>
+      </div>
+
+      <h2 id="formTitle">Create your account</h2>
+      <p id="formDescription">Register with your email address.</p>
+
+      <form id="accountForm">
+        <label for="email">Email address</label>
+        <input id="email" type="email" autocomplete="email"
+          placeholder="you@example.com" required>
+
+        <label for="password">Password</label>
+        <input id="password" type="password"
+          autocomplete="new-password" minlength="8"
+          placeholder="At least 8 characters" required>
+
+        <button class="primary" type="submit" id="submitButton">
+          Create account
+        </button>
+      </form>
+
+      <p class="message" id="message" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer>
+    Exptradingview · Independent website project · Demo interface
+  </footer>
+
+  <script>
+    let currentForm = "signup";
+
+    function showForm(mode) {
+      currentForm = mode;
+      document.getElementById("signupTab").classList.toggle(
+        "active", mode === "signup");
+      document.getElementById("loginTab").classList.toggle(
+        "active", mode === "login");
+      document.getElementById("formTitle").textContent =
+        mode === "signup" ? "Create your account" : "Welcome back";
+      document.getElementById("formDescription").textContent =
+        mode === "signup" ? "Register with your email address." :
+        "Enter your details to log in.";
+      document.getElementById("submitButton").textContent =
+        mode === "signup" ? "Create account" : "Log in";
+      document.getElementById("password").autocomplete =
+        mode === "signup" ? "new-password" : "current-password";
+      document.getElementById("message").textContent = "";
+    }
+
+    document.getElementById("accountForm").addEventListener(
+      "submit", function(event) {
+        event.preventDefault();
+        document.getElementById("message").textContent =
+          "Demo only: account services are not connected yet.";
+      });
+  </script>
+</body>
+                                              </html>
+                                              
