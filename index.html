@@ -155,8 +155,89 @@
         document.getElementById("message").textContent =
           "Demo only: account services are not connected yet.";
       });
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+ 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://fkppixdznggifldpchkl.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_pGrRnqtLTjea6cV3LsidEA_C_g_qKzt";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+let currentForm = "signup";
+
+function showForm(mode) {
+  currentForm = mode;
+
+  document.getElementById("signupTab").classList.toggle("active", mode === "signup");
+  document.getElementById("loginTab").classList.toggle("active", mode === "login");
+
+  document.getElementById("formTitle").textContent =
+    mode === "signup" ? "Create your account" : "Welcome back";
+
+  document.getElementById("formDescription").textContent =
+    mode === "signup"
+      ? "Register with your email address."
+      : "Enter your details to log in.";
+
+  document.getElementById("submitButton").textContent =
+    mode === "signup" ? "Create account" : "Log in";
+
+  document.getElementById("password").autocomplete =
+    mode === "signup" ? "new-password" : "current-password";
+
+  document.getElementById("message").textContent = "";
+}
+
+document.getElementById("accountForm").addEventListener(
+  "submit",
+  async function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const message = document.getElementById("message");
+    const button = document.getElementById("submitButton");
+
+    button.disabled = true;
+    message.textContent = "Please wait...";
+
+    try {
+      let result;
+
+      if (currentForm === "signup") {
+        result = await supabaseClient.auth.signUp({
+          email: email,
+          password: password
+        });
+      } else {
+        result = await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+      }
+
+      if (result.error) {
+        message.textContent = result.error.message;
+      } else if (currentForm === "signup") {
+        message.textContent = result.data.session
+          ? "Account created successfully!"
+          : "Registration submitted. Check your email to confirm your account.";
+      } else {
+        message.textContent = "Login successful!";
+      }
+    } catch (error) {
+      message.textContent =
+        "Connection failed. Please check your internet and Supabase settings.";
+    } finally {
+      button.disabled = false;
+    }
+  }
+);
+</script>
+  
 </body>
                                               </html>
                                               
